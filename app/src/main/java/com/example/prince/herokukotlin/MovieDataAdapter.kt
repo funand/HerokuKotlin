@@ -6,10 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.movie_items.view.*
-import java.util.*
+import java.util.ArrayList
 
-
-class MovieDataAdapter(var dataset: ArrayList<MovieDataClass>, private val listener : Listener, val arrayList: ArrayList<MovieDataClass>) : RecyclerView.Adapter<MovieDataAdapter.MovieHolder>() {
+class MovieDataAdapter(val dataset: ArrayList<MovieDataClass>, private val listener : Listener, val arrayList:ArrayList<MovieDataClass>) : RecyclerView.Adapter<MovieDataAdapter.MovieHolder>() {
 
     interface Listener{
         fun onItemClick(movieDataClass : MovieDataClass)
@@ -28,31 +27,22 @@ class MovieDataAdapter(var dataset: ArrayList<MovieDataClass>, private val liste
         holder.bind(dataset.get(position), listener)
     }
 
-    fun setFilter(arrayList: ArrayList<MovieDataClass>){
-
-    }
-
-    fun findThis(charText: String): Boolean {
+    fun findThis(charText: String) {
         dataset.clear()
-//        var temp = charText.toLowerCase()
 
         if(charText.isNotEmpty()) {
-
-            var temp = charText.toLowerCase()
-            println("size: "+arrayList.size)
+            val search = charText.toLowerCase()
             arrayList.forEach{
-                if (it.title.toLowerCase().contains(temp) || it.genre.toLowerCase().contains(temp))
+                if (it.title.toLowerCase().contains(search) || it.genre.toLowerCase().contains(search))
                 dataset.add(it)
             }
-
         }
 
         else{
             dataset.addAll(arrayList)
         }
 
-        notifyDataSetChanged()
-        return true
+        this.notifyDataSetChanged()
     }
 
     class MovieHolder(val view: View) : RecyclerView.ViewHolder(view) {
